@@ -119,6 +119,13 @@
             "shortcut": "",
             "handler": "toggleTheme",
             "script": "measure.sketchscript"
+        },
+        {
+            "name": "Toggle PLoc",
+            "identifier": "toggle-ploc",
+            "shortcut": "ctrl shift p",
+            "handler": "togglePLoc",
+            "script": "measure.sketchscript"
         }
     ],
     "menu" : {
@@ -138,6 +145,7 @@
             "lite-height",
             "color-names",
             "spec-export",
+            "toggle-ploc",
             {
                 "title": "Settings",
                 "items": [
