@@ -2366,7 +2366,7 @@ com.utom.extend({
 com.utom.extend({
     isPLocalized: false,
     togglePLoc: function (){
-        //1- retrieve list of strings in UI (save into local DB?)
+        //1- retrieve list of strings in UI, to create alternate layer with pseudo-strings displayed (?)
         //2- if (!isPLocalized)
         //      foreach string in list, convert from UI-language to PLoc 
         //   else
@@ -2375,119 +2375,117 @@ com.utom.extend({
         return;
     },
 
-    //"real" pseudo (strings readable)
-    convertString: function (content) {
-        //"content" --> 
-        //'[' + <random ploc character on top for height-expansion> 
-        // + <random ploc-mapping("content")> + '_' 
-        // + <random ploc chars for length-expansion> + ']'
+        //"real" pseudo (strings readable)
+        convertString: function (content) {
+            //"content" --> 
+            //'[' + <random ploc character on top for height-expansion> + <random ploc-mapping("content")> + '_' + <random ploc chars for length-expansion> + ']'
 
-        //mapping for ploc
-        var pseudoTable = {
-            A: String.fromCharCode(192, 193, 194, 195, 196, 197, 256, 258, 260, 506, 512, 514),
-            a: String.fromCharCode(224, 225, 226, 227, 228, 229, 257, 259, 261, 507, 513, 515),
-            B: String.fromCharCode(223, 385, 579, 665),
-            b: String.fromCharCode(384, 386, 387, 388, 389, 595),
-            C: String.fromCharCode(262, 264, 266, 268),
-            c: String.fromCharCode(263, 265, 267, 269),
-            D: String.fromCharCode(270, 272, 393, 394),
-            d: String.fromCharCode(271, 273),
-            E: String.fromCharCode(274, 276, 278, 280, 282, 516, 518),
-            e: String.fromCharCode(275, 277, 279, 281, 283, 517, 519),
-            F: String.fromCharCode(401),
-            f: String.fromCharCode(402),
-            G: String.fromCharCode(284, 286, 288, 290),
-            g: String.fromCharCode(285, 287, 289, 291),
-            H: String.fromCharCode(292, 294),
-            h: String.fromCharCode(293, 295),
-            I: String.fromCharCode(296, 298, 300, 302, 304),
-            i: String.fromCharCode(297, 299, 301, 303, 305),
-            J: String.fromCharCode(309),
-            j: String.fromCharCode(308),
-            K: String.fromCharCode(310, 408),
-            k: String.fromCharCode(311, 312, 409),
-            L: String.fromCharCode(313, 315, 317, 319, 321),
-            l: String.fromCharCode(314, 316, 318, 320, 322),
-            N: String.fromCharCode(323, 325, 327, 330, 413),
-            n: String.fromCharCode(324, 326, 328, 329, 331, 414),
-            O: String.fromCharCode(332, 334, 336, 416),
-            o: String.fromCharCode(333, 335, 337, 417),
-            P: String.fromCharCode(420),
-            p: String.fromCharCode(421, 447),
-            Q: String.fromCharCode(490, 492),
-            q: String.fromCharCode(491, 493, 587),
-            R: String.fromCharCode(340, 342, 344, 422),
-            r: String.fromCharCode(341, 343, 345),
-            S: String.fromCharCode(346, 348, 350, 352),
-            s: String.fromCharCode(347, 349, 351, 353),
-            T: String.fromCharCode(354, 356, 358),
-            t: String.fromCharCode(355, 357, 359),
-            U: String.fromCharCode(360, 362, 364, 366, 368, 370),
-            u: String.fromCharCode(361, 363, 365, 367, 369, 371),
-            W: String.fromCharCode(372),
-            w: String.fromCharCode(373),
-            Y: String.fromCharCode(374, 376, 435, 562, 590),
-            y: String.fromCharCode(375, 436, 563, 591),
-            Z: String.fromCharCode(377, 379, 381, 437),
-            z: String.fromCharCode(378, 380, 382, 438)
-        };
+            //mapping for ploc
+            var pseudoTable = {
+                A: String.fromCharCode(192, 193, 194, 195, 196, 197, 256, 258, 260, 506, 512, 514),
+                a: String.fromCharCode(224, 225, 226, 227, 228, 229, 257, 259, 261, 507, 513, 515),
+                B: String.fromCharCode(223, 385, 579, 665),
+                b: String.fromCharCode(384, 386, 387, 388, 389, 595),
+                C: String.fromCharCode(262, 264, 266, 268),
+                c: String.fromCharCode(263, 265, 267, 269),
+                D: String.fromCharCode(270, 272, 393, 394),
+                d: String.fromCharCode(271, 273),
+                E: String.fromCharCode(274, 276, 278, 280, 282, 516, 518),
+                e: String.fromCharCode(275, 277, 279, 281, 283, 517, 519),
+                F: String.fromCharCode(401),
+                f: String.fromCharCode(402),
+                G: String.fromCharCode(284, 286, 288, 290),
+                g: String.fromCharCode(285, 287, 289, 291),
+                H: String.fromCharCode(292, 294),
+                h: String.fromCharCode(293, 295),
+                I: String.fromCharCode(296, 298, 300, 302, 304),
+                i: String.fromCharCode(297, 299, 301, 303, 305),
+                J: String.fromCharCode(309),
+                j: String.fromCharCode(308),
+                K: String.fromCharCode(310, 408),
+                k: String.fromCharCode(311, 312, 409),
+                L: String.fromCharCode(313, 315, 317, 319, 321),
+                l: String.fromCharCode(314, 316, 318, 320, 322),
+                N: String.fromCharCode(323, 325, 327, 330, 413),
+                n: String.fromCharCode(324, 326, 328, 329, 331, 414),
+                O: String.fromCharCode(332, 334, 336, 416),
+                o: String.fromCharCode(333, 335, 337, 417),
+                P: String.fromCharCode(420),
+                p: String.fromCharCode(421, 447),
+                Q: String.fromCharCode(490, 492),
+                q: String.fromCharCode(491, 493, 587),
+                R: String.fromCharCode(340, 342, 344, 422),
+                r: String.fromCharCode(341, 343, 345),
+                S: String.fromCharCode(346, 348, 350, 352),
+                s: String.fromCharCode(347, 349, 351, 353),
+                T: String.fromCharCode(354, 356, 358),
+                t: String.fromCharCode(355, 357, 359),
+                U: String.fromCharCode(360, 362, 364, 366, 368, 370),
+                u: String.fromCharCode(361, 363, 365, 367, 369, 371),
+                W: String.fromCharCode(372),
+                w: String.fromCharCode(373),
+                Y: String.fromCharCode(374, 376, 435, 562, 590),
+                y: String.fromCharCode(375, 436, 563, 591),
+                Z: String.fromCharCode(377, 379, 381, 437),
+                z: String.fromCharCode(378, 380, 382, 438)
+            };
 
-        //initial delimiter, to check truncations on the left
-        var result = "[";
+            //initial delimiter, to check truncations on the left
+            var result = "[";
 
-        //add random ploc on top of first char, to prevent clippings
-        result += this.createRandomString(1, 1750, 1756);
+            //add random ploc on top of first char, to prevent clippings
+            result += this.createRandomString(1, 1750, 1756);
 
-        //ploc("content")
-        for (i = 0; i < content.length; i++) {
-            c = content[i];
-            pc = pseudoTable[c];
-            if (pc) {
-                var diacriticalIndex = content.length % pc.length;
-                c = pc[diacriticalIndex];
+            //ploc("content")
+            var c = "", pc = "", diacriticalIndex = 0;
+            for (i = 0; i < content.length; i++) {
+                c = content[i];
+                pc = pseudoTable[c];
+                if (pc) {
+                    diacriticalIndex = content.length % pc.length;
+                    c = pc[diacriticalIndex];
+                }
+                result += c;
             }
-            result += c;
-        }
 
-        //add _ to separate string from expansion, for readability
-        result += "_";
+            //add _ to separate string from expansion, for readability
+            result += "_";
 
-        //addCharacters based on source-length, similar to http://codebox/OnePseudo
-        var expansionRate = 0;
-        switch (true) {
-            case (content.length <= 3):
-                expansionRate = 3; //4x
-                break;
-            case (content.length <= 7):
-                expansionRate = 2.5; //3.5x
-                break;
-            case (content.length <= 10):
-                expansionRate = 1.8; //2.8x
-                break;
-            case (content.length <= 20):
-                expansionRate = 1; //2x
-                break;
-            case (content.length <= 40):
-                expansionRate = 0.8;
-                break;
-            case (content.length <= 70):
-                expansionRate = 0.5;
-                break;
-            default: //content.length > 70
-                expansionRate = 0.3;
-                break;
-        }
+            //addCharacters based on source-length, similar to http://codebox/OnePseudo
+            //the shorter the English strings, the higher expansion-rate
+            var expansionRate = 0;
+            switch (true) {
+                case (content.length <= 3):
+                    expansionRate = 3; //4x of the initial lenght
+                    break;
+                case (content.length <= 7):
+                    expansionRate = 2.5; //3.5x of the initial lenght
+                    break;
+                case (content.length <= 10):
+                    expansionRate = 1.8; //2.8x of the initial lenght
+                    break;
+                case (content.length <= 20):
+                    expansionRate = 1; //2x of the initial lenght
+                    break;
+                case (content.length <= 40):
+                    expansionRate = 0.8;
+                    break;
+                case (content.length <= 70):
+                    expansionRate = 0.5;
+                    break;
+                default: //content.length > 70
+                    expansionRate = 0.3; //only for very long strings, the expansion-rate is just +30%
+                    break;
+            }
 
-        var addCharacters = Math.round(content.length * expansionRate);
-        for (d = 0; d < addCharacters - 1; d++) { //-1 for the '_' already added
-            result += this.createRandomString(1, 192, 687);
-        }
+            var addCharacters = Math.round(content.length * expansionRate);
+            result += this.createRandomString(addCharacters - 1, 192, 687); //-1 for the '_' already added
 
-        //final delimiter, to check truncations on the right
-        result += "]";
+            //final delimiter, to check truncations on the right
+            result += "]";
 
-        return result;
-    },
+            return result;
+        },
 
     createRandomString: function (characterCount, unicodeStart, unicodeEnd) {
         var s = '';
