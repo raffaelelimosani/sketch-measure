@@ -2499,3 +2499,60 @@ com.utom.extend({
     }
 },
 });
+
+
+//Expanding text for localization, to consider the potentially much longer strings once the text is localized.
+//No fake-language as pseudo, just extend based on empirical knowledge of the average expansion-rates: the text is totally still readable.
+//"This is a string" becomes "[This is a string_eeeeee eeeeee eeeeee]"
+//Selection of the expansion-char is tweak-able, or in any case dependent on Font used. For Segoe UI, 'e' has a average width.
+//If '+' is preferred, then for Segoe UI the expansion-Rates should be reduced, as '+' is a very large char.
+com.utom.extend({
+	isTextExpanded: false;
+	toggleExpanded: function() {
+        //1- retrieve list of strings in UI, to create alternate layer with expanded-strings displayed (?)
+        //2- if (!isTextExpanded)
+        //      foreach string in list, expand applying empirical rates 
+        //   else
+        //      foreach string in list, restore back string-value of UI-language
+        //3- [optional?] if text-measure was shown, re-calculate and update 
+        return;
+    },
+	
+	expansionChar: "e"; 
+	expandString: function (content, expansionChar) {
+		var result = "[" + content + "_";
+
+        //the shorter the English strings, the higher expansion-rate
+        var expansionRate = 0.0;
+        if (content.length <= 3) 		expansionRate = 4.0; //4x times longer
+        else if (content.length <= 5) 	expansionRate = 3.5;
+        else if (content.length <= 7) 	expansionRate = 3.2;
+        else if (content.length <= 10) 	expansionRate = 3.0;
+        else if (content.length <= 12) 	expansionRate = 2.8;
+        else if (content.length <= 13) 	expansionRate = 2.6;
+        else if (content.length <= 15) 	expansionRate = 2.5;
+        else if (content.length <= 17) 	expansionRate = 2.4;
+        else if (content.length <= 18) 	expansionRate = 2.3;
+        else if (content.length <= 19) 	expansionRate = 2.2;
+        else if (content.length <= 27) 	expansionRate = 2.0;
+        else if (content.length <= 17) 	expansionRate = 2.4;
+        else if (content.length <= 39) 	expansionRate = 1.8;
+        else if (content.length <= 70) 	expansionRate = 1.5;
+        else 							expansionRate = 1.3; //only for very long strings, the expansion-rate is just +30%
+
+        var addChars = Math.round(content.length * (expansionRate - 1.0));
+
+		//to be more realistic, add a " " every 6 expansion-chars
+        for (i = 1; i < addChars; ++i)
+        {
+            if (i % 7 != 0)
+                result += charExp;
+            else
+                result += " ";
+        }
+
+        result += "]";
+        return result;
+	}
+});
+
